@@ -81,7 +81,7 @@ RUN rpm-ostree install \
     gamescope \
     gamescope-session \
     jupiter-fan-control \
-    jupiter-hw-support-btrfs \
+    #jupiter-hw-support-btrfs \
     steamdeck-kde-presets \
     gamemode \
     latencyflex-vulkan-layer \
