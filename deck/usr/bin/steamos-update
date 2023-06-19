@@ -1,4 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
-rpm-ostree update
-exit 0
+UPGRADE=$(rpm-ostree upgrade | grep -o '[^ ]*%')
+
+if [ -f '/tmp/upgrade-installed' ]; then
+  exit 7 # Upgrade already installed
+fi
+
+# Check if user has gone through initial setup
+if [ -f '~/.local/share/Steam/config/loginusers.vdf' ]; then
+  if grep -v "No upgrade available." <<< ${UPGRADE}; then
+    touch /tmp/upgrade-installed
+    exit 0 # Upgrade available
+  else
+    exit 7 # No upgrade available
+  fi
+else
+  exit 0
+fi
