@@ -31,6 +31,7 @@ RUN rpm-ostree install \
     python3-pip \
     libadwaita \
     distrobox \
+    waydroid \
     steamdeck-kde-themes \
     sddm-sugar-steamOS \
     wallpaper-engine-kde-plugin \
