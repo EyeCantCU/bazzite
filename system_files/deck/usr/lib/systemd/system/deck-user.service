@@ -1,0 +1,10 @@
+[Unit]
+Description=Creates 'deck' user
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/just -f /usr/share/ublue-os/just/custom.just create-deck-user
+
+[Install]
+WantedBy=multi-user.target
