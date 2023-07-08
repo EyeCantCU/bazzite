@@ -1,0 +1,10 @@
+[Unit]
+Description=Enables autologin to plasma-x11
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sed -i 's/.*Session=.*/Session=plasma-x11.desktop/g' /etc/sddm.conf.d/steamos.conf
+
+[Install]
+WantedBy=multi-user.target
