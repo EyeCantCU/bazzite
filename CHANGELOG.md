@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.0](https://github.com/EyeCantCU/bazzite/compare/v1.0.0...v1.1.0) (2023-07-08)
+
+
+### Features
+
+* Add and enable plasma-autologin service ([ef5cedc](https://github.com/EyeCantCU/bazzite/commit/ef5cedcac6b1e6605ea9889ebbe0ec7b70359961))
+* **deck:** Create 'deck' user no matter what ([abd2fb5](https://github.com/EyeCantCU/bazzite/commit/abd2fb5133d70e7b211e8c8988363d15ef49545f))
+
+
+### Bug Fixes
+
+* Correct spelling of rpm-ostree ([cbad1a4](https://github.com/EyeCantCU/bazzite/commit/cbad1a4219749b3834e942291823ba53c41f5920))
+* **deck:** Remove sddm.conf ([7d946cd](https://github.com/EyeCantCU/bazzite/commit/7d946cd2b83b7dcb946ee3851455f490c1b6aaed))
+* Remove krfb-libs ([1a6cdff](https://github.com/EyeCantCU/bazzite/commit/1a6cdffc1ac13eb918f66b1084deec4917b4f1b7))
+* Remove krfb-libs ([90f7a25](https://github.com/EyeCantCU/bazzite/commit/90f7a25c92ebe8a4b423057e7f3382ff0809820d))
+* Try jupiter-hw-support ([8de1e0e](https://github.com/EyeCantCU/bazzite/commit/8de1e0e90104978c267e8c30ac5e3a97369fc754))
+
 ## 1.0.0 (2023-07-07)
 
 
