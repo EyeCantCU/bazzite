@@ -32,6 +32,7 @@ RUN rpm-ostree install \
     python3-pip \
     libadwaita \
     distrobox \
+    waydroid \
     steamdeck-kde-themes \
     sddm-sugar-steamOS \
     wallpaper-engine-kde-plugin \
@@ -79,6 +80,7 @@ RUN pip install --prefix=/usr yafti && \
     systemctl disable rpm-ostreed-automatic.timer && \
     systemctl --global enable ublue-update.timer && \
     systemctl enable input-remapper.service && \
+    sudo systemctl enable waydroid-container && \
     rm -rf \
         /tmp/* \
         /var/* && \
@@ -129,7 +131,7 @@ RUN rpm-ostree install \
     gamescope \
     gamescope-session \
     jupiter-fan-control \
-    jupiter-hw-support-btrfs \
+    jupiter-hw-support \
     steamdeck-kde-presets \
     ryzenadj \
     gamemode \
