@@ -162,6 +162,7 @@ RUN sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.re
     systemctl disable input-remapper.service && \
     systemctl --global disable ublue-update.timer && \
     rm -rf \
+        /etc/sddm.conf
         /tmp/* \
         /var/* && \
     mkdir -p /var/lib/duperemove && \
