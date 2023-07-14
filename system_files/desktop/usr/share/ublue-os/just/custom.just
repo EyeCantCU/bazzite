@@ -9,6 +9,15 @@ install-bazzite-arch:
     distrobox assemble create --file /usr/share/ublue-os/distrobox/bazzite-arch
   fi
 
+configure-waydroid:
+  git clone https://github.com/casualsnek/waydroid_script
+  cd waydroid_script
+  sudo pip install -r requirements.txt
+  sudo ./main.py
+  sudo pip uninstall -r requirements.txt
+  cd ..
+  rm -rf waydroid_script
+
 install-corectrl:
   rpm-ostree install corectrl
   rpm-ostree kargs --append="amdgpu.ppfeaturemask=0xffffffff"
