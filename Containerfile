@@ -106,12 +106,17 @@ RUN ln -s /usr/bin/steamos-logger /usr/bin/steamos-info && \
     ln -s /usr/bin/steamos-logger /usr/bin/steamos-notice && \
     ln -s /usr/bin/steamos-logger /usr/bin/steamos-warning
 
+# Copy Gnome configuration
+RUN mkdir -p /tmp/gnome
+COPY system_files/deck/gnome/usr /tmp/gnome/usr
+RUN if grep "gnome" <<< "${IMAGE_NAME}"; then \
+    cp -rf /tmp/gnome/usr/* /usr \
+; fi
+
 # Copy KDE configuration
 RUN mkdir -p /tmp/kde
-COPY system_files/deck/kde/etc /tmp/kde/etc
 COPY system_files/deck/kde/usr /tmp/kde/usr
 RUN if grep "kde" <<< "${IMAGE_NAME}"; then \
-    cp -rf /tmp/kde/etc/* /etc && \
     cp -rf /tmp/kde/usr/* /usr \
 ; fi
 
