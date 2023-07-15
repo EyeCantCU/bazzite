@@ -164,9 +164,11 @@ RUN rpm-ostree install \
     sdgyrodsu
 
 # Remove unneeded packages
-RUN rpm-ostree override remove \
-    krfb \
-    krfb-libs
+RUN if grep "kde" <<< "${IMAGE_NAME}"; then \
+    rpm-ostree override remove \
+        krfb \
+        krfb-libs \
+; fi
 
 # Install dock updater, this is done manually due to proprietary parts preventing it from being on Copr.
 RUN git clone https://gitlab.com/evlaV/jupiter-dock-updater-bin.git --single-branch /tmp/jupiter-dock-updater-bin && \
