@@ -32,11 +32,7 @@ RUN rpm-ostree install \
     python3-pip \
     libadwaita \
     distrobox \
-    steamdeck-kde-themes \
-    sddm-sugar-steamOS \
-    wallpaper-engine-kde-plugin \
     duperemove \
-    kdeconnectd \
     input-remapper \
     system76-scheduler \
     hl2linux-selinux \
@@ -49,19 +45,29 @@ RUN rpm-ostree install \
 
 # Remove unneeded packages
 RUN rpm-ostree override remove \
-    firefox \
+    firefox \ 
     firefox-langpacks \
-    plasma-welcome \
-    toolbox \
-    htop \
-    qt5-qdbusviewer
+    toolbox \ 
+    htop
+
+# KDE packages
+RUN if grep "kde" <<< "${IMAGE_NAME}"; then \
+    rpm-ostree install \
+        steamdeck-kde-themes \
+        sddm-sugar-steamOS \
+        wallpaper-engine-kde-plugin \
+        kdeconnectd && \
+    rpm-ostree override remove \
+        plasma-welcome \
+        qt5-qdbusviewer \
+; fi
 
 # Install ROCM on non-Nvidia images
 RUN if grep -v "nvidia" <<< "${IMAGE_NAME}"; then \
     rpm-ostree install \
         rocm-hip \
         rocm-opencl \
-; fi 
+; fi
 
 # Run firstboot script per-profile
 RUN mkdir -p "/usr/etc/profile.d/"
@@ -114,8 +120,13 @@ RUN rpm-ostree override remove system76-scheduler
 RUN rm -f /etc/systemd/user/com.system76.Scheduler.dbusproxy.service
 RUN rm -f /usr/bin/system76-scheduler-dbus-proxy
 
-# Remove steamdeck-kde-themes
-RUN rpm-ostree override remove steamdeck-kde-themes
+# Install Steam Deck KDE preferences
+RUN if grep "kde" <<< "${IMAGE_NAME}"; then \
+    rpm-ostree override remove \
+        steamdeck-kde-themes && \
+    rpm-ostree install \
+        steamdeck-kde-presets \
+; fi
 
 # Remove ublue-os-wallpapers
 RUN rpm-ostree override remove ublue-os-wallpapers
@@ -135,7 +146,6 @@ RUN rpm-ostree install \
     gamescope-session \
     jupiter-fan-control \
     jupiter-hw-support-btrfs \
-    steamdeck-kde-presets \
     ryzenadj \
     gamemode \
     latencyflex-vulkan-layer \
