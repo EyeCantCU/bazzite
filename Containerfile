@@ -198,7 +198,8 @@ RUN sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.re
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-wallpaper-engine-kde-plugin.repo && \
     if grep "gnome" <<< "${IMAGE_NAME}"; then \
         systemctl disable gdm.service && \
-        systemctl enable sddm.service \
+        systemctl enable sddm.service && \
+        systemctl enable gnome-autologin.service \
     ; fi && \
     if grep "kde" <<< "${IMAGE_NAME}"; then \
         systemctl enable plasma-autologin.service \
