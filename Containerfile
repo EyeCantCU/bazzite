@@ -45,7 +45,7 @@ RUN rpm-ostree install \
 
 # Remove unneeded packages
 RUN rpm-ostree override remove \
-    firefox \ 
+    firefox \
     firefox-langpacks \
     toolbox \ 
     htop
@@ -99,11 +99,21 @@ FROM bazzite as bazzite-deck
 ARG IMAGE_NAME="${IMAGE_NAME}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION}"
 
-COPY system_files/deck/etc /etc
-COPY system_files/deck/usr /usr
+# Copy shared configuration
+COPY system_files/deck/shared/etc /etc
+COPY system_files/deck/shared/usr /usr
 RUN ln -s /usr/bin/steamos-logger /usr/bin/steamos-info && \
     ln -s /usr/bin/steamos-logger /usr/bin/steamos-notice && \
     ln -s /usr/bin/steamos-logger /usr/bin/steamos-warning
+
+# Copy KDE configuration
+RUN mkdir -p /tmp/kde
+COPY system_files/deck/kde/etc /tmp/kde/etc
+COPY system_files/deck/kde/usr /tmp/kde/usr
+RUN if grep "kde" <<< "${IMAGE_NAME}"; then \
+    cp -rf /tmp/kde/etc/* /etc && \
+    cp -rf /tmp/kde/usr/* /usr \
+; fi
 
 # Add LatencyFleX and MangoApp Copr repos
 RUN wget https://copr.fedorainfracloud.org/coprs/kylegospo/LatencyFleX/repo/fedora-$(rpm -E %fedora)/kylegospo-LatencyFleX-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-latencyflex.repo && \
@@ -172,7 +182,9 @@ RUN sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.re
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-hl2linux-selinux.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-obs-vkcapture.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-wallpaper-engine-kde-plugin.repo && \
-    systemctl enable plasma-autologin.service && \
+    if grep "kde" <<< "${IMAGE_NAME}"; then \
+        systemctl enable plasma-autologin.service \
+    ; fi && \
     systemctl enable jupiter-fan-control.service && \
     systemctl enable set-cfs-tweaks.service && \
     systemctl disable input-remapper.service && \
