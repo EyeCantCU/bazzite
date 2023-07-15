@@ -130,6 +130,13 @@ RUN rpm-ostree override remove system76-scheduler
 RUN rm -f /etc/systemd/user/com.system76.Scheduler.dbusproxy.service
 RUN rm -f /usr/bin/system76-scheduler-dbus-proxy
 
+# Use SDDM in Gnome images
+RUN if grep "gnome" <<< "${IMAGE_NAME}"; then \
+    rpm-ostree install \
+        sddm \
+        sddm-sugar-steamOS \
+; fi
+
 # Install Steam Deck KDE preferences
 RUN if grep "kde" <<< "${IMAGE_NAME}"; then \
     rpm-ostree override remove \
@@ -184,6 +191,10 @@ RUN sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.re
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-hl2linux-selinux.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-obs-vkcapture.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-wallpaper-engine-kde-plugin.repo && \
+    if grep "gnome" <<< "${IMAGE_NAME}"; then \
+        systemctl disable gdm.service && \
+        systemctl enable sddm.service \
+    ; fi && \
     if grep "kde" <<< "${IMAGE_NAME}"; then \
         systemctl enable plasma-autologin.service \
     ; fi && \
