@@ -9,8 +9,25 @@ FROM ${BASE_IMAGE}:${FEDORA_MAJOR_VERSION} AS bazzite
 ARG IMAGE_NAME="${IMAGE_NAME}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION}"
 
-COPY system_files/desktop/etc /etc
-COPY system_files/desktop/usr /usr
+# Copy shared configuration
+COPY system_files/desktop/shared/etc /etc
+COPY system_files/desktop/shared/usr /usr
+
+# Copy Gnome configuration
+RUN mkdir -p /tmp/gnome
+COPY system_files/desktop/gnome/etc /tmp/gnome/etc
+RUN if grep "gnome" <<< "${IMAGE_NAME}"; then \
+    cp -rf /tmp/gnome/etc/* /etc \
+; fi
+
+# Copy KDE configuration
+RUN mkdir -p /tmp/kde
+COPY system_files/desktop/kde/etc /tmp/kde/etc
+COPY system_files/desktop/kde/usr /tmp/kde/usr
+RUN if grep "kde" <<< "${IMAGE_NAME}"; then \
+    cp -rf /tmp/kde/usr/* /etc && \
+    cp -rf /tmp/kde/usr/* /usr \
+; fi
 
 # Add ublue packages
 COPY --from=ghcr.io/ublue-os/ublue-update:latest /rpms/ublue-update.noarch.rpm /tmp/rpms/ublue-update.noarch.rpm
@@ -34,8 +51,7 @@ RUN if grep "gnome" <<< "${IMAGE_NAME}"; then \
         mutter \
         gnome-control-center \
         gnome-control-center-filesystem \
-        xorg-x11-server-Xwayland && \
-    echo MUTTER_DEBUG_FORCE_KMS_MODE=simple > /etc/environment \
+        xorg-x11-server-Xwayland \
 ; fi
 
 # Install new packages
