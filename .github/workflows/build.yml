@@ -51,13 +51,17 @@ jobs:
           echo "BASE_IMAGE_NAME=${{ matrix.base_image_name }}" >> $GITHUB_ENV
           if [[ "${{ matrix.base_image_name }}" == "silverblue" ]]; then
               DESKTOP="gnome"
+              if [[ "${{ matrix.image_flavor }}" == "main" ]]; then
+                  echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_name, '${DESKTOP}') }}" >> $GITHUB_ENV
+              else
+                  echo "IMAGE_NAME=${{ format('{0}-{1}-{2}', matrix.base_name, '${DESKTOP}', matrix.image_flavor) }}" >> $GITHUB_ENV
+              fi
           else
-              DESKTOP="kde"
-          fi
-          if [[ "${{ matrix.image_flavor }}" == "main" ]]; then
-              echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_name, '${DESKTOP}') }}" >> $GITHUB_ENV
-          else
-              echo "IMAGE_NAME=${{ format('{0}-{1}-{2}', matrix.base_name, '${DESKTOP}', matrix.image_flavor) }}" >> $GITHUB_ENV
+              if [[ "${{ matrix.image_flavor }}" == "main" ]]; then
+                  echo "IMAGE_NAME=${{ matrix.base_name }}" >> $GITHUB_ENV
+              else
+                  echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.base_name, matrix.image_flavor) }}" >> $GITHUB_ENV
+              fi
           fi
 
       - name: Generate tags
