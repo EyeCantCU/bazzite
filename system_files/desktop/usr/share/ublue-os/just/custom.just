@@ -13,6 +13,9 @@ install-corectrl:
   rpm-ostree install corectrl
   rpm-ostree kargs --append="amdgpu.ppfeaturemask=0xffffffff"
 
+install-extensions-cli:
+  pip install --upgrade gnome-extensions-cli
+
 install-nix:
   curl -s https://raw.githubusercontent.com/dnkmmr69420/nix-installer-scripts/main/installer-scripts/silverblue-nix-installer.sh | bash
 

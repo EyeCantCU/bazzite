@@ -31,6 +31,9 @@ get-emudeck:
   wget https://www.emudeck.com/EmuDeck.desktop -P ~/Desktop
   chmod +x ~/Desktop/EmuDeck.desktop
 
+install-extensions-cli:
+  pip install --upgrade gnome-extensions-cli
+
 install-nix:
   curl -s https://raw.githubusercontent.com/dnkmmr69420/nix-installer-scripts/main/installer-scripts/silverblue-nix-installer.sh | bash
 
