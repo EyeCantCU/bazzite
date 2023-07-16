@@ -172,6 +172,8 @@ screens:
           packages:
           - Install Nix Package Support: just install-nix
         System76 Scheduler:
+          condition:
+            run: grep "kde" <<< $(rpm-ostree status)
           description: Enables System76 scheduler
           default: true
           packages:

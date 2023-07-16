@@ -25,12 +25,17 @@ get-greenlight:
   chmod +x ~/Desktop/Greenlight.AppImage
 
 enable-system76-scheduler:
-  git clone https://github.com/maxiberta/kwin-system76-scheduler-integration.git --single-branch /tmp/kwin-system76-scheduler-integration
-  kpackagetool5 --type=KWin/Script -i /tmp/kwin-system76-scheduler-integration
-  systemctl --user enable --now com.system76.Scheduler.dbusproxy.service
-  systemctl enable --now com.system76.Scheduler.service
-  kcmshell5 kcm_kwin_scripts
-  rm -rf /tmp/kwin-system76-scheduler-integration
+  #!/usr/bin/env bash
+  if grep "kde" <<< $(rpm-ostree status); then
+    git clone https://github.com/maxiberta/kwin-system76-scheduler-integration.git --single-branch /tmp/kwin-system76-scheduler-integration
+    kpackagetool5 --type=KWin/Script -i /tmp/kwin-system76-scheduler-integration
+    systemctl --user enable --now com.system76.Scheduler.dbusproxy.service
+    systemctl enable --now com.system76.Scheduler.service
+    kcmshell5 kcm_kwin_scripts
+    rm -rf /tmp/kwin-system76-scheduler-integration
+  else
+    echo "This is only supported under KDE."
+  fi
 
 enable-wallpaper-engine:
   #!/usr/bin/env bash
