@@ -204,6 +204,11 @@ screens:
       show_terminal: true
       package_manager: yafti.plugin.run
       groups:
+        System76 Scheduler:
+          description: Enables System76 scheduler
+          default: true
+          packages:
+          - Enable System76 Scheduler: just enable-system76-scheduler
   final-screen:
     source: yafti.screen.title
     values:
