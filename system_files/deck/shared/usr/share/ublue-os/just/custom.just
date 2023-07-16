@@ -31,6 +31,18 @@ get-emudeck:
   wget https://www.emudeck.com/EmuDeck.desktop -P ~/Desktop
   chmod +x ~/Desktop/EmuDeck.desktop
 
+enable-supergfxctl:   
+  #!/usr/bin/env bash
+  status=$(rpm-ostree status) 
+  if grep "nvidia" <<< ${status}; then  
+    systemctl enable --now supergfxd.service  
+    if grep "gnome" <<< ${status}; then
+      gext install supergfxctl-gex@asus-linux.org
+    fi 
+  else
+    echo "This requires an Nvidia image."
+  fi
+
 install-extensions-cli:
   pip install --upgrade gnome-extensions-cli
 

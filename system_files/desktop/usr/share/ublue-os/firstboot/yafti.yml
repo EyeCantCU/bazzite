@@ -171,6 +171,13 @@ screens:
           default: true
           packages:
           - Install Nix Package Support: just install-nix
+        Supergfxctl:
+          condition:
+            run: grep "kde" <<< $(rpm-ostree status) && grep "nvidia" <<< $(rpm-ostree status)
+          description: A utility for Nvidia GPU switching
+          default: false
+          packages:
+          - Enable supergfxctl: just enable-supergfxctl
         System76 Scheduler:
           condition:
             run: grep "kde" <<< $(rpm-ostree status)
@@ -204,6 +211,13 @@ screens:
       show_terminal: true
       package_manager: yafti.plugin.run
       groups:
+        Supergfxctl:
+          condition:
+            run: grep "nvidia" <<< $(rpm-ostree status)
+          description: A utility for Nvidia GPU switching
+          default: false
+          packages:
+          - Enable supergfxctl: just enable-supergfxctl
         System76 Scheduler:
           description: Enables System76 scheduler
           default: true

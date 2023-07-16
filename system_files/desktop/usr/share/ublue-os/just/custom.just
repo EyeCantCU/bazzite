@@ -27,6 +27,18 @@ get-greenlight:
   wget https://github.com/unknownskl/greenlight/releases/download/v2.0.0-beta8/Greenlight-2.0.0-beta8.AppImage -O ~/Desktop/Greenlight.AppImage
   chmod +x ~/Desktop/Greenlight.AppImage
 
+enable-supergfxctl:   
+  #!/usr/bin/env bash
+  status=$(rpm-ostree status) 
+  if grep "nvidia" <<< ${status}; then  
+    systemctl enable --now supergfxd.service  
+    if grep "gnome" <<< ${status}; then
+      gext install supergfxctl-gex@asus-linux.org
+    fi 
+  else
+    echo "This requires an Nvidia image."
+  fi
+
 enable-system76-scheduler:
   #!/usr/bin/env bash
   if grep "kde" <<< $(rpm-ostree status); then

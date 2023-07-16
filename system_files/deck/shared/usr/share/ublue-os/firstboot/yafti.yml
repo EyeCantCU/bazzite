@@ -132,25 +132,6 @@ screens:
           - qBittorrent: org.qbittorrent.qBittorrent
           - Syncthing: com.github.zocker_160.SyncThingy
           - VLC: org.videolan.VLC
-  install-extension-cli:
-    source: yafti.screen.consent
-    values:
-      title: Setting up GNOME Extension CLI
-      condition:
-        run: grep "gnome" <<< $(rpm-ostree status)
-      description: |
-        This installs the GNOME Extension CLI, used by the extensions on the next page.
-      actions:
-      - run: just install-extension-cli
-  gnome-extensions:
-    source: yafti.screen.package
-    values:
-      title: Install GNOME Extensions
-      condition:
-        run: grep "gnome" <<< $(rpm-ostree status)
-      show_terminal: true
-      package_manager: yafti.plugin.run
-      groups:
   configure-bazzite:
     source: yafti.screen.package
     values:
@@ -215,6 +196,13 @@ screens:
           default: true
           packages:
           - Create Steam shortcuts: just create-steam-shortcuts
+        Supergfxctl:
+          condition:
+            run: grep "kde" <<< $(rpm-ostree status) && grep "nvidia" <<< $(rpm-ostree status)
+          description: A utility for Nvidia GPU switching
+          default: false
+          packages:
+          - Enable supergfxctl: just enable-supergfxctl
         Wallpaper Engine:
           condition:
             run: grep "kde" <<< $(rpm-ostree status)
@@ -222,6 +210,32 @@ screens:
           default: true
           packages:
           - Enable Wallpaper Engine: just enable-wallpaper-engine
+  install-extension-cli:
+    source: yafti.screen.consent
+    values:
+      title: Setting up GNOME Extension CLI
+      condition:
+        run: grep "gnome" <<< $(rpm-ostree status)
+      description: |
+        This installs the GNOME Extension CLI, used by the extensions on the next page.
+      actions:
+      - run: just install-extension-cli
+  gnome-extensions:
+    source: yafti.screen.package
+    values:
+      title: Install GNOME Extensions
+      condition:
+        run: grep "gnome" <<< $(rpm-ostree status)
+      show_terminal: true
+      package_manager: yafti.plugin.run
+      groups:
+        Supergfxctl:
+          condition:
+            run: grep "nvidia" <<< $(rpm-ostree status)
+          description: A utility for Nvidia GPU switching
+          default: false
+          packages:
+          - Enable supergfxctl: just enable-supergfxctl
   final-screen:
     source: yafti.screen.title
     values:
