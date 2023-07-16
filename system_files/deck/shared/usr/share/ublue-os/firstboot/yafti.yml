@@ -229,6 +229,11 @@ screens:
       show_terminal: true
       package_manager: yafti.plugin.run
       groups:
+        GSConnect:
+          description: A KDE connect implementation for GNOME
+          default: true
+          packages:
+          - Enable GSConnect: just enable-gsconnect
         Supergfxctl:
           condition:
             run: grep "nvidia" <<< $(rpm-ostree status)

@@ -31,6 +31,14 @@ get-emudeck:
   wget https://www.emudeck.com/EmuDeck.desktop -P ~/Desktop
   chmod +x ~/Desktop/EmuDeck.desktop
 
+enable-gsconnect:
+  #!/usr/bin/env bash
+  if grep "gnome" <<< ${status}; then
+    gext install gsconnect@andyholmes.github.io
+  else
+    echo "This is only supported under GNOME."
+  fi
+
 enable-supergfxctl:   
   #!/usr/bin/env bash
   status=$(rpm-ostree status) 
