@@ -33,9 +33,14 @@ enable-system76-scheduler:
   rm -rf /tmp/kwin-system76-scheduler-integration
 
 enable-wallpaper-engine:
-  git clone https://github.com/catsout/wallpaper-engine-kde-plugin.git --single-branch /tmp/wallpaper-engine-kde-plugin
-  plasmapkg2 -i /tmp/wallpaper-engine-kde-plugin/plugin
-  rm -rf /tmp/wallpaper-engine-kde-plugin
+  #!/usr/bin/env bash
+  if grep "kde" <<< $(rpm-ostree status); then
+    git clone https://github.com/catsout/wallpaper-engine-kde-plugin.git --single-branch /tmp/wallpaper-engine-kde-plugin
+    plasmapkg2 -i /tmp/wallpaper-engine-kde-plugin/plugin
+    rm -rf /tmp/wallpaper-engine-kde-plugin
+  else
+    echo "This is only supported under KDE."
+  fi
 
 zram-on:
   #!/usr/bin/env bash
