@@ -197,6 +197,8 @@ screens:
           packages:
           - Create Steam shortcuts: just create-steam-shortcuts
         Wallpaper Engine:
+          condition:
+            run: grep "kde" <<< $(rpm-ostree status)
           description: Enables Wallpaper Engine
           default: true
           packages:

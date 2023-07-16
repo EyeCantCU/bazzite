@@ -177,6 +177,8 @@ screens:
           packages:
           - Enable System76 Scheduler: just enable-system76-scheduler
         Wallpaper Engine:
+          condition:
+            run: grep "kde" <<< $(rpm-ostree status)
           description: Enables Wallpaper Engine
           default: true
           packages:
