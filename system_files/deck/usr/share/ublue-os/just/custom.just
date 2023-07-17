@@ -13,6 +13,15 @@ create-steam-shortcuts:
   cp /usr/share/applications/steam.desktop ~/Desktop
   cp /etc/skel.d/Desktop/Return.desktop ~/Desktop
 
+configure-waydroid:
+  #!/usr/bin/env bash
+  SCRIPT='/tmp/waydroid_script'
+  git clone https://github.com/casualsnek/waydroid_script ${SCRIPT}
+  sudo pip install --user -r ${SCRIPT}/requirements.txt
+  sudo ${SCRIPT}/main.py
+  sudo pip uninstall --user -r ${SCRIPT}/requirements.txt
+  rm -rf ${SCRIPT}
+
 get-decky:
   curl -L https://github.com/SteamDeckHomebrew/decky-installer/releases/latest/download/install_release.sh | sh
 

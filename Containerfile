@@ -32,6 +32,9 @@ RUN rpm-ostree install \
     python3-pip \
     libadwaita \
     distrobox \
+    waydroid \
+    lzip \
+    weston \
     steamdeck-kde-themes \
     sddm-sugar-steamOS \
     wallpaper-engine-kde-plugin \
@@ -80,6 +83,7 @@ RUN pip install --prefix=/usr yafti && \
     systemctl disable rpm-ostreed-automatic.timer && \
     systemctl --global enable ublue-update.timer && \
     systemctl enable input-remapper.service && \
+    systemctl enable waydroid-container.service && \
     rm -rf \
         /tmp/* \
         /var/* && \
