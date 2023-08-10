@@ -52,7 +52,6 @@ RUN rpm-ostree install \
     extest.i686 \
     python3-pip \
     libadwaita \
-    gamescope \
     duperemove \
     rmlint \
     compsize \
@@ -118,13 +117,6 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         yelp \
 ; fi
 
-# Install OpenGamepadUI
-RUN wget $(curl -s https://api.github.com/repos/ShadowBlip/OpenGamepadUI/releases/latest | \
-    jq -r ".assets[] | select(.name | test(\"opengamepadui.tar.gz\")) | .browser_download_url") \
-    -P /tmp && \
-    tar xvfz /tmp/opengamepadui.tar.gz -C /tmp && \
-    make -C /tmp/opengamepadui install PREFIX=/usr
-
 # Install ROCM and Waydroid on non-Nvidia images
 RUN if grep -qv "nvidia" <<< "${IMAGE_NAME}"; then \
     rpm-ostree install \
@@ -133,6 +125,12 @@ RUN if grep -qv "nvidia" <<< "${IMAGE_NAME}"; then \
         waydroid \
         lzip \
         weston \
+        gamescope && \
+    wget $(curl -s https://api.github.com/repos/ShadowBlip/OpenGamepadUI/releases/latest | \
+    jq -r ".assets[] | select(.name | test(\"opengamepadui.tar.gz\")) | .browser_download_url") \
+    -P /tmp && \
+    tar xvfz /tmp/opengamepadui.tar.gz -C /tmp && \
+    make -C /tmp/opengamepadui install PREFIX=/usr \
 ; fi
 
 # Cleanup & Finalize
