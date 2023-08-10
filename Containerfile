@@ -272,7 +272,6 @@ RUN rpm-ostree install \
 RUN rpm-ostree install \
         steam \
         lutris \
-        gamescope \
         gamescope-session \
         wine-core \
         winetricks && \
