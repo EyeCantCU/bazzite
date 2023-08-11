@@ -125,9 +125,7 @@ RUN if grep -qv "nvidia" <<< "${IMAGE_NAME}"; then \
         waydroid \
         lzip \
         weston \
-        firejail \
-        gamescope \
-        OpenGamepadUI-session && \
+        firejail && \
     wget $(curl -s https://api.github.com/repos/ShadowBlip/OpenGamepadUI/releases/latest | \
     jq -r ".assets[] | select(.name | test(\"opengamepadui.tar.gz\")) | .browser_download_url") \
     -P /tmp && \
@@ -275,6 +273,7 @@ RUN rpm-ostree install \
         steam \
         lutris \
         gamescope-session \
+        OpenGamepadUI-session \
         wine-core \
         winetricks && \
     rpm-ostree override remove \
